@@ -1,2 +1,1 @@
-# BL4AS
-A BI-RADS 4 Lesions Analysis System
+# A BI-RADS 4 Lesions Analysis System (BL4AS)
