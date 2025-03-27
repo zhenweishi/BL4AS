@@ -27,6 +27,10 @@ Foundation model leveraging multiphase DCE-MRI spatiotemporal dynamics
 - Compatible with standard PACS workflows  
 - Improves both senior and junior radiologists' accuracy
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3623f586-7fe0-414f-8b33-d00115932aad" width="1000" height="740">
+</p>
+
 ## Main Developers
  - [Dr. Zhenwei Shi](https://github.com/zhenweishi) <sup/>1, 2
  - MSc. Zhitao Wei <sup/>1, 2
