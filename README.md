@@ -27,6 +27,11 @@ Foundation model leveraging multiphase DCE-MRI spatiotemporal dynamics
 - Compatible with standard PACS workflows  
 - Improves both senior and junior radiologists' accuracy
 
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/3623f586-7fe0-414f-8b33-d00115932aad" width="1000" height="740">
+</p>
+
 ## Usage
 
 ✔ **Environment Setup**  
@@ -53,15 +58,6 @@ python -u main.py examples/configs/cls_train.yaml
 # BI-RADS 4 lesion risk stratification
 python -u main.py examples/configs/cls_test.yaml
 ```
-
-✔ **Clinical Application**  
-- **Visualization** - Generate Grad-CAM heatmaps (`python visualize.py`)
-- **Risk Assessment** - Provide refined 4A/4B/4C subcategorization
-- **Report Generation** - Automatically create standardized structured reports
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/3623f586-7fe0-414f-8b33-d00115932aad" width="1000" height="740">
-</p>
 
 ## Main Developers
  - [Dr. Zhenwei Shi](https://github.com/zhenweishi) <sup/>1, 2
