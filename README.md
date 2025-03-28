@@ -1,6 +1,6 @@
 # A BI-RADS 4 Lesions Analysis System (BL4AS)
 
-This repository supports the research study "An Interpretable AI System for Stratifying High-risk Breast Lesions to Reduce False-positive MRI Diagnoses." To safeguard the study's intellectual property during the peer review process, we have elected to defer publication of the analysis code and trained models until the manuscript completes journal review. For inquiries regarding this work, please feel free to contact our team.
+This repository supports the research study "An Interpretable AI System for Stratifying High-risk Breast Lesions to Reduce False-positive MRI Diagnoses". For inquiries regarding this work, please feel free to contact our team.
 
 
 <p align="center">
