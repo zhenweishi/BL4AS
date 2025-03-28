@@ -1,0 +1,3 @@
+*.pth.tar
+runs/
+__pycache__/

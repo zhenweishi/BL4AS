@@ -27,6 +27,43 @@ Foundation model leveraging multiphase DCE-MRI spatiotemporal dynamics
 - Compatible with standard PACS workflows  
 - Improves both senior and junior radiologists' accuracy
 
+## Usage
+
+✔ **Environment Setup**  
+```bash
+git clone https://github.com/zhenweishi/BL4AS.git
+cd BL4AS
+pip install -r requirements.txt # Python 3.9.18
+```
+
+✔ **Data Preparation**  
+- Place DCE-MRI data in the `data/raw_data` directory
+- Supports standard DICOM format
+- Automatically processes multi-phase data
+
+✔ **Lesion Segmentation**  
+```bash
+# Train segmentation model
+python -u main.py examples/configs/seg_train.yaml
+
+# Test segmentation performance
+python -u main.py examples/configs/seg_test.yaml
+```
+
+✔ **Lesion Classification**  
+```bash
+# Train classification model
+python -u main.py examples/configs/cls_train.yaml
+
+# BI-RADS 4 lesion risk stratification
+python -u main.py examples/configs/cls_test.yaml
+```
+
+✔ **Clinical Application**  
+- **Visualization** - Generate Grad-CAM heatmaps (`python visualize.py`)
+- **Risk Assessment** - Provide refined 4A/4B/4C subcategorization
+- **Report Generation** - Automatically create standardized structured reports
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/3623f586-7fe0-414f-8b33-d00115932aad" width="1000" height="740">
 </p>

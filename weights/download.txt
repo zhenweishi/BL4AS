@@ -1,0 +1,3 @@
+mae.pth.tar: https://drive.google.com/file/d/10d-ygt5_P0FGTWnJSGKA52HgujNVmMRR/view?usp=sharing
+seg.pth.tar: https://drive.google.com/file/d/1e4X0iYo1goZaX-8N8TKurT8f-thIrm4z/view?usp=sharing
+cls.pth.tar: https://drive.google.com/file/d/18i3YoyjF_68-ySGc8kz_IO1nR3hyXjw6/view?usp=sharing

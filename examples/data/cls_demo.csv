@@ -1,0 +1,6 @@
+ID,is_malignant,filename,mask,C2,C2-C0,C5-C2
+P1,0,P1.nii.gz,C2/tumor_mask@all_roi_resize@cc15/P1.nii.gz,C2/image@all_roi_resize@cc15/P1.nii.gz,C2-C0/image@all_roi_resize@cc15/P1.nii.gz,C5-C2/image@all_roi_resize@cc15/P1.nii.gz
+P2,0,P2.nii.gz,C2/tumor_mask@all_roi_resize@cc15/P2.nii.gz,C2/image@all_roi_resize@cc15/P2.nii.gz,C2-C0/image@all_roi_resize@cc15/P2.nii.gz,C5-C2/image@all_roi_resize@cc15/P2.nii.gz
+P3,1,P3.nii.gz,C2/tumor_mask@all_roi_resize@cc15/P3.nii.gz,C2/image@all_roi_resize@cc15/P3.nii.gz,C2-C0/image@all_roi_resize@cc15/P3.nii.gz,C5-C2/image@all_roi_resize@cc15/P3.nii.gz
+P4,1,P4.nii.gz,C2/tumor_mask@all_roi_resize@cc15/P4.nii.gz,C2/image@all_roi_resize@cc15/P4.nii.gz,C2-C0/image@all_roi_resize@cc15/P4.nii.gz,C5-C2/image@all_roi_resize@cc15/P4.nii.gz
+P5,1,P5.nii.gz,C2/tumor_mask@all_roi_resize@cc15/P5.nii.gz,C2/image@all_roi_resize@cc15/P5.nii.gz,C2-C0/image@all_roi_resize@cc15/P5.nii.gz,C5-C2/image@all_roi_resize@cc15/P5.nii.gz

@@ -1,0 +1,188 @@
+imports:
+  - "$import lib"
+  - "$import monai"
+
+# ============= General =============
+run_name: cls_train
+output_root: runs
+remark: 
+seed: 6666
+
+# ============= Trainer =============
+trainer_name: ClsTrainer
+batch_size: 1
+pretrain_batch_size: 128
+workers: 4
+epochs: 5
+start_epoch: 0
+pretrain: weights/mae.pth.tar
+resume: null 
+
+# ======================================
+# ↓↓↓↓↓↓↓ Checkpoints and Logger ↓↓↓↓↓↓↓
+print_freq: 20
+eval_freq: 1
+val_print_freq: -1
+test_print_freq: 1
+save_freq: -1
+save_best: true
+use_wandb: false
+use_tensorboard: true
+save_cfg: true
+log_image: false
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+# ======================================
+
+# ======================================
+# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓ Dataset ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+roi_size: 48
+bm_key: "is_malignant"
+
+
+nfolds: 5
+nfolds_conf:
+  arg_name: src
+  train: 
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example.
+
+  val:
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example. You should use different csv for train and val.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example. You should use different csv for train and val.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example. You should use different csv for train and val.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example. You should use different csv for train and val.
+    - examples/data/cls_demo.csv # You should not use the same csv for all folds. Here is just an example. You should use different csv for train and val.
+
+train_dataset:
+  _target_x: lib.datasets.CacheCSVDataset
+  src: null
+  cache_rate: 1.0
+  transform: "$@read_transform + @train_transform"
+
+val_dataset:
+  _target_x: lib.datasets.CacheCSVDataset
+  src: null
+  cache_rate: 1.0
+  transform: "$@read_transform + @val_transform"
+
+read_transform:
+  # C2-C0
+  - _target_x: lib.transforms.PathJoin # image_path = Path("base_dir") / filename
+    base_dir: "examples/data"
+    name_key: "C2-C0"
+    path_key: "C2-C0_image"
+  # C2
+  - _target_x: lib.transforms.PathJoin # image_path = Path("base_dir") / filename
+    base_dir: "examples/data"
+    name_key: "C2"
+    path_key: "C2_image"
+  # C5-C2
+  - _target_x: lib.transforms.PathJoin # image_path = Path("base_dir") / filename
+    base_dir: "examples/data"
+    name_key: "C5-C2"
+    path_key: "C5-C2_image"
+  # tumor mask
+  - _target_x: lib.transforms.PathJoin # image_path = Path("base_dir") / filename
+    base_dir: "examples/data"
+    name_key: "mask"
+    path_key: "mask"
+
+  - _target_x: lib.transforms.LoadImaged
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+  - _target_x: monai.transforms.EnsureChannelFirstd
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+    channel_dim: 'no_channel'
+  - _target_x: monai.transforms.ToTensorD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask", "@bm_key"]
+    track_meta: false
+
+train_transform:
+  - _target_x: monai.transforms.NormalizeIntensityD
+  # - _target_x: monai.transforms.ScaleIntensityD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image"]
+  - _target_x: lib.transforms.RandHistogramShiftD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image"]
+    prob: 0.5
+  - _target_x: monai.transforms.RandAxisFlipD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+    prob: 0.5
+  - _target_x: monai.transforms.RandGaussianSmoothD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image"]
+    prob: 0.5
+  - _target_x: monai.transforms.SpatialPadD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+    spatial_size: ["@roi_size", "@roi_size", "@roi_size"]
+  - _target_x: lib.transforms.NanToZeroD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+
+val_transform:
+  - _target_x: monai.transforms.NormalizeIntensityD
+  # - _target_x: monai.transforms.ScaleIntensityD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image"]
+  - _target_x: monai.transforms.SpatialPadD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+    spatial_size: ["@roi_size", "@roi_size", "@roi_size"]
+  - _target_x: lib.transforms.NanToZeroD
+    keys: ["C2-C0_image", "C2_image", "C5-C2_image", "mask"]
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+# ======================================
+
+# ======================================
+# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓ Model ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+model_name: BMVit
+num_classes: 1
+bm_weight: 1
+bi_weight: 0
+# -------------- Encoder Settings ----------------
+encoder_freeze_all_except_fc: true
+encoder_eval_in_train: true
+
+# -------------- Model Object ----------------
+model_obj:
+  _target_: lib.models.Encoder1Decoder12
+  encoder_preprocess: 
+    _target_: lib.layers.b4classifier.C025Fusion
+  encoder:
+    _target_: lib.models.vit_3d_base_patchsize8
+    img_size: "@roi_size"
+    in_chans: 1
+    stop_grad_conv1: false
+    num_classes: "@num_classes" # Doesn't matter, but 1 will be faster
+  encoder_forward: "forward_features"
+  decoder_preprocess: "$lambda x: x"
+  decoder: 
+    _target_: lib.layers.B4Classifier
+    x_dim: 768
+    mlp_dim: 128
+    patch_size: 8
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+# ======================================
+
+
+# ======================================
+# ↓↓↓↓↓↓↓↓↓↓↓↓ Optimizer ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+optimizer: adamw
+warmup_epochs: 5
+lr: 0.01
+momentum: 0.9
+weight_decay: 0.
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+# =====================================
+
+
+
+# ======================================
+# ↓↓↓↓↓↓↓↓↓↓↓ GPU and DDP ↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+gpu: 0 # if `multiprocessing_distributed` is true, this arg will be ignored
+multiprocessing_distributed: false # true: Default use all gpus. Use `export CUDA_VISIBLE_DEVICES=0,2` to choose gpus.
+ngpus_per_node: null # if not set, will use all gpus
+rank: 0 # the ID of this node
+world_size: 1 # the number of nodes
+distributed: null # will be replaced: args.distributed = args.world_size > 1 or args.multiprocessing_distributed
+dist_backend: nccl
+dist_url: 'tcp://localhost:10011'
+# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+# =====================================

@@ -1,0 +1,66 @@
+{
+    "training": [
+        {
+            "ID": "P1",
+            "filename": "P1.nii.gz",
+            "image": "C2/image/P1.nii.gz",
+            "label": "C2/tumor_mask/P1.nii.gz"
+        },
+        {
+            "ID": "P2",
+            "filename": "P2.nii.gz",
+            "image": "C2/image/P2.nii.gz",
+            "label": "C2/tumor_mask/P2.nii.gz"
+        },
+        {
+            "ID": "P3",
+            "filename": "P3.nii.gz",
+            "image": "C2/image/P3.nii.gz",
+            "label": "C2/tumor_mask/P3.nii.gz"
+        },
+        {
+            "ID": "P4",
+            "filename": "P4.nii.gz",
+            "image": "C2/image/P4.nii.gz",
+            "label": "C2/tumor_mask/P4.nii.gz"
+        },
+        {
+            "ID": "P5",
+            "filename": "P5.nii.gz",
+            "image": "C2/image/P5.nii.gz",
+            "label": "C2/tumor_mask/P5.nii.gz"
+        }
+    ],
+    "validation": [
+        {
+            "ID": "P1",
+            "filename": "P1.nii.gz",
+            "image": "C2/image/P1.nii.gz",
+            "label": "C2/tumor_mask/P1.nii.gz"
+        },
+        {
+            "ID": "P2",
+            "filename": "P2.nii.gz",
+            "image": "C2/image/P2.nii.gz",
+            "label": "C2/tumor_mask/P2.nii.gz"
+        },
+        {
+            "ID": "P3",
+            "filename": "P3.nii.gz",
+            "image": "C2/image/P3.nii.gz",
+            "label": "C2/tumor_mask/P3.nii.gz"
+        },
+        {
+            "ID": "P4",
+            "filename": "P4.nii.gz",
+            "image": "C2/image/P4.nii.gz",
+            "label": "C2/tumor_mask/P4.nii.gz"
+        },
+        {
+            "ID": "P5",
+            "filename": "P5.nii.gz",
+            "image": "C2/image/P5.nii.gz",
+            "label": "C2/tumor_mask/P5.nii.gz"
+        }
+    ]
+}

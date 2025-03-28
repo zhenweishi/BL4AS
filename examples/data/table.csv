@@ -1,0 +1,6 @@
+ID,is_malignant,filename
+P1,0,P1.nii.gz
+P2,0,P2.nii.gz
+P3,1,P3.nii.gz
+P4,1,P4.nii.gz
+P5,1,P5.nii.gz
