@@ -36,11 +36,6 @@ cd BL4AS
 pip install -r requirements.txt # Python 3.9.18
 ```
 
-✔ **Data Preparation**  
-- Place DCE-MRI data in the `data/raw_data` directory
-- Supports standard DICOM format
-- Automatically processes multi-phase data
-
 ✔ **Lesion Segmentation**  
 ```bash
 # Train segmentation model
